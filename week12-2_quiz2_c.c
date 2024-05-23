@@ -12,27 +12,27 @@ typedef struct {
     int heap_size;
 } HeapType;
 
-// »ı¼º ÇÔ¼ö
+// ìƒì„± í•¨ìˆ˜
 HeapType* create() {
     return (HeapType*)malloc(sizeof(HeapType));
 }
-// ÃÊ±âÈ­ ÇÔ¼ö
+// ì´ˆê¸°í™” í•¨ìˆ˜
 void init(HeapType* h) {
     h->heap_size = 0;
 }
-// ÇöÀç ¿ä¼ÒÀÇ °³¼ö°¡ heap_sizeÀÎ Èü h¿¡ itemÀ» »ğÀÔÇÑ´Ù.
+// í˜„ì¬ ìš”ì†Œì˜ ê°œìˆ˜ê°€ heap_sizeì¸ í™ hì— itemì„ ì‚½ì…í•œë‹¤.
 void push_min_heap(HeapType* h, element item) {
     int i;
     i = ++(h->heap_size);
 
-    //  Æ®¸®¸¦ °Å½½·¯ ¿Ã¶ó°¡¸é¼­ ºÎ¸ğ ³ëµå¿Í ºñ±³ÇÏ´Â °úÁ¤
+    //  íŠ¸ë¦¬ë¥¼ ê±°ìŠ¬ëŸ¬ ì˜¬ë¼ê°€ë©´ì„œ ë¶€ëª¨ ë…¸ë“œì™€ ë¹„êµí•˜ëŠ” ê³¼ì •
     while ((i != 1) && (item.benefit <= h->heap[i / 2].benefit)) {
         h->heap[i] = h->heap[i / 2];
         i /= 2;
     }
-    h->heap[i] = item;   // »õ·Î¿î ³ëµå¸¦ »ğÀÔ
+    h->heap[i] = item;   // ìƒˆë¡œìš´ ë…¸ë“œë¥¼ ì‚½ì…
 }
-// »èÁ¦ ÇÔ¼ö
+// ì‚­ì œ í•¨ìˆ˜
 element pop_min_heap(HeapType* h) {
     int parent, child;
     element item, temp;
@@ -42,12 +42,12 @@ element pop_min_heap(HeapType* h) {
     parent = 1;
     child = 2;
     while (child <= h->heap_size) {
-        // ÇöÀç ³ëµåÀÇ ÀÚ½Ä³ëµå Áß ´õ ÀÛÀº ÀÚ½Ä³ëµå¸¦ Ã£´Â´Ù.
+        // í˜„ì¬ ë…¸ë“œì˜ ìì‹ë…¸ë“œ ì¤‘ ë” ì‘ì€ ìì‹ë…¸ë“œë¥¼ ì°¾ëŠ”ë‹¤.
         if ((child < h->heap_size) &&
             (h->heap[child].benefit) >= h->heap[child + 1].benefit)
             child++;
         if (temp.benefit < h->heap[child].benefit) break;
-        // ÇÑ ´Ü°è ¾Æ·¡·Î ÀÌµ¿
+        // í•œ ë‹¨ê³„ ì•„ë˜ë¡œ ì´ë™
         h->heap[parent] = h->heap[child];
         parent = child;
         child *= 2;
@@ -80,9 +80,9 @@ int main() {
 
         int A_benefit_sum = 0;
         int B_benefit_sum = 0;
-        int is_A_turn = 1; // AÀÇ Â÷·ÊÀÎÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â º¯¼ö. 1ÀÌ¸é AÀÇ Â÷·Ê, 0ÀÌ¸é BÀÇ Â÷·Ê.
+        int is_A_turn = 1; // Aì˜ ì°¨ë¡€ì¸ì§€ ì—¬ë¶€ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ë³€ìˆ˜. 1ì´ë©´ Aì˜ ì°¨ë¡€, 0ì´ë©´ Bì˜ ì°¨ë¡€.
 
-        // ¿ä¼ÒµéÀ» ¹ø°¥¾Æ°¡¸ç ¼±ÅÃÇÏ¸ç ÀÌÀÍÀ» °è»ê
+        // ìš”ì†Œë“¤ì„ ë²ˆê°ˆì•„ê°€ë©° ì„ íƒí•˜ë©° ì´ìµì„ ê³„ì‚°
         for (int res_type = 0; res_type < resource_num; res_type++) {
             element item = pop_min_heap(h);
             if (is_A_turn) {
