@@ -5,35 +5,35 @@
 
 #define MAX_QUEUE_SIZE 100
 
-#define WORD_SIZE 101 // Ãß°¡µÊ
-typedef char* element; // Ãß°¡µÊ
-typedef struct { // Å¥ Å¸ÀÔ
+#define WORD_SIZE 101 // ì¶”ê°€ë¨
+typedef char* element; // ì¶”ê°€ë¨
+typedef struct { // í íƒ€ìž…
     element data[MAX_QUEUE_SIZE];
     int  front, rear;
 } QueueType;
 
-// ¿À·ù ÇÔ¼ö
+// ì˜¤ë¥˜ í•¨ìˆ˜
 void error(const char* message) {
     fprintf(stderr, "%s\n", message);
     exit(1);
 }
 
-// °ø¹é »óÅÂ °ËÃâ ÇÔ¼ö
+// ê³µë°± ìƒíƒœ ê²€ì¶œ í•¨ìˆ˜
 void init_queue(QueueType* q) {
     q->front = q->rear = 0;
 }
 
-// °ø¹é »óÅÂ °ËÃâ ÇÔ¼ö
+// ê³µë°± ìƒíƒœ ê²€ì¶œ í•¨ìˆ˜
 int is_empty(QueueType* q) {
     return (q->front == q->rear);
 }
 
-// Æ÷È­ »óÅÂ °ËÃâ ÇÔ¼ö
+// í¬í™” ìƒíƒœ ê²€ì¶œ í•¨ìˆ˜
 int is_full(QueueType* q) {
     return ((q->rear + 1) % MAX_QUEUE_SIZE == q->front % MAX_QUEUE_SIZE);
 }
 
-// ¿øÇüÅ¥ Ãâ·Â ÇÔ¼ö
+// ì›í˜•í ì¶œë ¥ í•¨ìˆ˜
 void queue_print(QueueType* q) {
     printf("QUEUE(front=%d rear=%d) = ", q->front, q->rear);
     if (!is_empty(q)) {
@@ -48,19 +48,19 @@ void queue_print(QueueType* q) {
     printf("\n");
 }
 
-// »ðÀÔ ÇÔ¼ö
+// ì‚½ìž… í•¨ìˆ˜
 void enqueue(QueueType* q, element item) {
     if (is_full(q))
-        error("Å¥°¡ Æ÷È­»óÅÂÀÔ´Ï´Ù.");
-    q->data[(q->rear + 1) % MAX_QUEUE_SIZE] = (char*)malloc(WORD_SIZE * sizeof(char));  // Ãß°¡µÊ
-    strcpy(q->data[(q->rear + 1) % MAX_QUEUE_SIZE], item);  // Ãß°¡µÊ
+        error("íê°€ í¬í™”ìƒíƒœìž…ë‹ˆë‹¤.");
+    q->data[(q->rear + 1) % MAX_QUEUE_SIZE] = (char*)malloc(WORD_SIZE * sizeof(char));  // ì¶”ê°€ë¨
+    strcpy(q->data[(q->rear + 1) % MAX_QUEUE_SIZE], item);  // ì¶”ê°€ë¨
     q->rear = (q->rear + 1) % MAX_QUEUE_SIZE;
 }
 
-// »èÁ¦ ÇÔ¼ö
+// ì‚­ì œ í•¨ìˆ˜
 element dequeue(QueueType* q) {
     if (is_empty(q))
-        error("Å¥°¡ °ø¹é»óÅÂÀÔ´Ï´Ù.");
+        error("íê°€ ê³µë°±ìƒíƒœìž…ë‹ˆë‹¤.");
     q->front = (q->front + 1) % MAX_QUEUE_SIZE;
     element item = q->data[q->front];
     return item;
@@ -68,13 +68,13 @@ element dequeue(QueueType* q) {
 
 element get_front(QueueType* q) {
     if (is_empty(q))
-        error("Å¥ÀÌ °ø¹é»óÅÂÀÔ´Ï´Ù.");
+        error("íì´ ê³µë°±ìƒíƒœìž…ë‹ˆë‹¤.");
     return q->data[(q->front + 1) % MAX_QUEUE_SIZE];
 }
 
 element get_rear(QueueType* q) {
     if (is_empty(q))
-        error("Å¥ÀÌ °ø¹é»óÅÂÀÔ´Ï´Ù.");
+        error("íì´ ê³µë°±ìƒíƒœìž…ë‹ˆë‹¤.");
     return q->data[q->rear];
 }
 
@@ -86,9 +86,9 @@ int main() {
     for (int problem = 0; problem < problem_num; problem++) {
         scanf("%d %d", &student_num, &word_num);
 
-        //string(¹®ÀÚ¿­)À» ¿©·¯°³ ´ã´Â ¹è¿­
-        //¹®ÀÚ¿­ ÀÚÃ¼°¡ charÀÇ ¹è¿­ÀÌ¶ó
-        //ÀÌÁß Æ÷ÀÎÅÍ°¡ µÇ¾úÀ½
+        //string(ë¬¸ìžì—´)ì„ ì—¬ëŸ¬ê°œ ë‹´ëŠ” ë°°ì—´
+        //ë¬¸ìžì—´ ìžì²´ê°€ charì˜ ë°°ì—´ì´ë¼
+        //ì´ì¤‘ í¬ì¸í„°ê°€ ë˜ì—ˆìŒ
         char** sentence = (char**)malloc(word_num * sizeof(char*));
         for (int word = 0; word < word_num; word++) {
             sentence[word] = (char*)malloc(WORD_SIZE * sizeof(char));
