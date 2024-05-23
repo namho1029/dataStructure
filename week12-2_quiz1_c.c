@@ -19,30 +19,30 @@ typedef struct {
     int heap_size;
 } HeapType;
 
-// »ı¼º ÇÔ¼ö
+// ìƒì„± í•¨ìˆ˜
 HeapType* create() {
     return (HeapType*)malloc(sizeof(HeapType));
 }
-// ÃÊ±âÈ­ ÇÔ¼ö
+// ì´ˆê¸°í™” í•¨ìˆ˜
 void init(HeapType* h) {
     h->heap_size = 0;
 }
 
-// ÇöÀç ¿ä¼ÒÀÇ °³¼ö°¡ heap_sizeÀÎ Èü h¿¡ itemÀ» »ğÀÔÇÑ´Ù.
+// í˜„ì¬ ìš”ì†Œì˜ ê°œìˆ˜ê°€ heap_sizeì¸ í™ hì— itemì„ ì‚½ì…í•œë‹¤.
 void push_min_heap(HeapType* h, counter_info item) {
     int i;
     i = ++(h->heap_size);
 
     // upheap
-    //Æ®¸®¸¦ °Å½½·¯ ¿Ã¶ó°¡¸é¼­ ºÎ¸ğ ³ëµå¿Í ºñ±³ÇÏ´Â °úÁ¤
-    while ((i != 1) && (item.end_time < h->heap[i / 2].end_time)) {// ÃÖ¼ÒÈüÀ¸·Î ¹Ù²Ü ¶§ ºÎµîÈ£ µÚÁı±â 
+    //íŠ¸ë¦¬ë¥¼ ê±°ìŠ¬ëŸ¬ ì˜¬ë¼ê°€ë©´ì„œ ë¶€ëª¨ ë…¸ë“œì™€ ë¹„êµí•˜ëŠ” ê³¼ì •
+    while ((i != 1) && (item.end_time < h->heap[i / 2].end_time)) {// ìµœì†Œí™ìœ¼ë¡œ ë°”ê¿€ ë•Œ ë¶€ë“±í˜¸ ë’¤ì§‘ê¸° 
         h->heap[i] = h->heap[i / 2];
         i /= 2;
     }
-    h->heap[i] = item;   // »õ·Î¿î ³ëµå¸¦ »ğÀÔ
+    h->heap[i] = item;   // ìƒˆë¡œìš´ ë…¸ë“œë¥¼ ì‚½ì…
 }
 
-// »èÁ¦ ÇÔ¼ö
+// ì‚­ì œ í•¨ìˆ˜
 counter_info pop_min_heap(HeapType* h) {
     int parent, child;
     counter_info item, temp;
@@ -53,12 +53,12 @@ counter_info pop_min_heap(HeapType* h) {
     child = 2;
     // downheap
     while (child <= h->heap_size) {
-        // ÇöÀç ³ëµåÀÇ ÀÚ½Ä³ëµå Áß ´õ ÀÛÀº ÀÚ½Ä³ëµå¸¦ Ã£´Â´Ù.
+        // í˜„ì¬ ë…¸ë“œì˜ ìì‹ë…¸ë“œ ì¤‘ ë” ì‘ì€ ìì‹ë…¸ë“œë¥¼ ì°¾ëŠ”ë‹¤.
         if ((child < h->heap_size) &&
             (h->heap[child].end_time) > h->heap[child + 1].end_time)
             child++;
         if (temp.end_time <= h->heap[child].end_time) break;
-        // ÇÑ ´Ü°è ¾Æ·¡·Î ÀÌµ¿
+        // í•œ ë‹¨ê³„ ì•„ë˜ë¡œ ì´ë™
         h->heap[parent] = h->heap[child];
         parent = child;
         child *= 2;
