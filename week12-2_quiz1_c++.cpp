@@ -17,9 +17,9 @@ typedef struct counter_info {
 struct compare {
     bool operator()(const counter_info& s1, const counter_info& s2) {
         if (s1.end_time == s2.end_time) {
-            return s1.number > s2.number; // ¹øÈ£°¡ ÀÛÀº Ä«¿îÅÍ¸¦ ´ÙÀ½ ¿ì¼±¼øÀ§·Î
+            return s1.number > s2.number; // ë²ˆí˜¸ê°€ ì‘ì€ ì¹´ìš´í„°ë¥¼ ë‹¤ìŒ ìš°ì„ ìˆœìœ„ë¡œ
         }
-        return s1.end_time > s2.end_time; // Á¾·á ½Ã°£ÀÌ ºü¸¥ Ä«¿îÅÍ¸¦ Ã¹¹øÂ° ¿ì¼±¼øÀ§·Î
+        return s1.end_time > s2.end_time; // ì¢…ë£Œ ì‹œê°„ì´ ë¹ ë¥¸ ì¹´ìš´í„°ë¥¼ ì²«ë²ˆì§¸ ìš°ì„ ìˆœìœ„ë¡œ
     }
 };
 
@@ -44,25 +44,25 @@ int main() {
     vector<int> counter_profit_answer(number_of_counter + 1);
 
     priority_queue<counter_info, vector<counter_info>, compare> pq;
-    for (int customer = 1; customer <= number_of_counter; customer++) { // Ã³À½¿¡´Â Ä«¿îÅÍ°¡ ´Ù ºñ±â¶§¹®¿¡ ¾Õ¿¡¼­ Ä«¿îÅÍ ¼ıÀÚ ¸¸Å­ÀÇ ¼Õ´ÔÀº Ä«¿îÅÍ¿¡ ÀÖ´Ù
+    for (int customer = 1; customer <= number_of_counter; customer++) { // ì²˜ìŒì—ëŠ” ì¹´ìš´í„°ê°€ ë‹¤ ë¹„ê¸°ë•Œë¬¸ì— ì•ì—ì„œ ì¹´ìš´í„° ìˆ«ì ë§Œí¼ì˜ ì†ë‹˜ì€ ì¹´ìš´í„°ì— ìˆë‹¤
         counter_list[customer].end_time = customer_list[customer].use_time;
-        pq.push(counter_list[customer]); // ¿ì¼± ¼øÀ§ Å¥¿¡ µé¾î°¬´Ù = ¼Õ´ÔÀÌ Ä«¿îÅÍ ¾²´Â ÁßÀÌ´Ù (ÇöÀç »ç¶÷ ÀÖ´Â Ä«¿îÅÍ°¡ ¿ì¼±¼øÀ§ Å¥¿¡ µé¾î°£´Ù)
+        pq.push(counter_list[customer]); // ìš°ì„  ìˆœìœ„ íì— ë“¤ì–´ê°”ë‹¤ = ì†ë‹˜ì´ ì¹´ìš´í„° ì“°ëŠ” ì¤‘ì´ë‹¤ (í˜„ì¬ ì‚¬ëŒ ìˆëŠ” ì¹´ìš´í„°ê°€ ìš°ì„ ìˆœìœ„ íì— ë“¤ì–´ê°„ë‹¤)
 
         counter_profit_answer[customer] = customer_list[customer].cost;
         total_time_answer = max(total_time_answer, counter_list[customer].end_time);
     }
     for (int customer = number_of_counter + 1; customer <= number_of_customer; customer++) { 
-        // ´ë±âÇÏ´Â ¼Õ´ÔºÎÅÍ ¸¶Áö¸· ¼Õ´Ô±îÁöÀÇ Ã³¸®
+        // ëŒ€ê¸°í•˜ëŠ” ì†ë‹˜ë¶€í„° ë§ˆì§€ë§‰ ì†ë‹˜ê¹Œì§€ì˜ ì²˜ë¦¬
         int counter = pq.top().number; 
-        pq.pop(); // Á¾·á ½Ã°£ÀÌ ºü¸¥ Ä«¿îÅÍ¸¦ popÇÑ´Ù.
-        counter_list[counter].end_time += customer_list[customer].use_time; // »õ ¼Õ´ÔÀÌ Ä«¿îÅÍ¸¦ ¾´ ¸¸Å­ ±× Ä«¿îÅÍÀÇ Á¾·á Å¸ÀÓÀ» °»½ÅÇÑ´Ù.
+        pq.pop(); // ì¢…ë£Œ ì‹œê°„ì´ ë¹ ë¥¸ ì¹´ìš´í„°ë¥¼ popí•œë‹¤.
+        counter_list[counter].end_time += customer_list[customer].use_time; // ìƒˆ ì†ë‹˜ì´ ì¹´ìš´í„°ë¥¼ ì“´ ë§Œí¼ ê·¸ ì¹´ìš´í„°ì˜ ì¢…ë£Œ íƒ€ì„ì„ ê°±ì‹ í•œë‹¤.
         pq.push(counter_list[counter]);
 
-        counter_profit_answer[counter] += customer_list[customer].cost; // »õ ¼Õ´ÔÀÌ Ä«¿îÅÍ¿¡¼­ ¾²°í °£ µ·À» ±× Ä«¿îÅÍ¿¡¼­ °è»êÇÑ µ·¿¡ ´õÇØ °»½ÅÇÑ´Ù
+        counter_profit_answer[counter] += customer_list[customer].cost; // ìƒˆ ì†ë‹˜ì´ ì¹´ìš´í„°ì—ì„œ ì“°ê³  ê°„ ëˆì„ ê·¸ ì¹´ìš´í„°ì—ì„œ ê³„ì‚°í•œ ëˆì— ë”í•´ ê°±ì‹ í•œë‹¤
         total_time_answer = max(total_time_answer, counter_list[counter].end_time);
     }
 
-    //¸ğµç ¼Õ´ÔÀÌ Ä«¿îÅÍ »ç¿ë ¿Ï·á
+    //ëª¨ë“  ì†ë‹˜ì´ ì¹´ìš´í„° ì‚¬ìš© ì™„ë£Œ
     cout << total_time_answer << "\n";
     for (int counter = 1; counter <= number_of_counter; counter++) {
         cout << counter_profit_answer[counter] << "\n";
